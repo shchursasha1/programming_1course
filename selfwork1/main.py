@@ -6,6 +6,7 @@ for i in range(1, n + 1):
         if i % 8 == 0:
             res_product *= i
     else:
-        print(0)
+        exit()
 
 print(res_product)
+
