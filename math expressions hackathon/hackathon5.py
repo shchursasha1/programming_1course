@@ -1,7 +1,4 @@
 def calculate_expression(expression):
-    # Перевірка на незакриті дужки
-    if expression.count('(') != expression.count(')'):
-        raise ValueError("Незакриті дужки")
 
     # Щоб перевірка на ділення на -0 теж спрацьовувала
     expression = expression.replace('-0', '0')
@@ -70,6 +67,29 @@ def calculate_expression(expression):
 
 
 expression = input("Введіть математичний вираз: ")
+
+def check_parentheses(expression):
+    open_count = expression.count('(')
+    close_count = expression.count(')')
+    
+    if open_count != close_count:
+        return False
+    else:
+        stack = 0
+        for char in expression:
+            if char == '(':
+                stack += 1
+            elif char == ')':
+                stack -= 1
+                if stack < 0:
+                    return False
+        return stack == 0
+
+
+if check_parentheses(expression):
+    print("Рядок з виразом не має помилок.")
+else:
+    print("Зайві або незакриті дужки")
 
 try:
     result = calculate_expression(expression)
