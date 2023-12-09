@@ -134,7 +134,6 @@ if __name__ == "__main__":
     scalar_vector_result = scalar_vector_multiplication(vector)
     print(f"Результат множення вектора на число: {scalar_vector_result}")
 
-    vector = [1, 2, 3]
     matrix_minus_vector = subtract_vector_from_matrix(A.copy(), vector)
     print("Результат віднімання вектора від всіх рядків матриці:")
     print_matrix(matrix_minus_vector)
