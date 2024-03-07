@@ -1,3 +1,10 @@
+"""
+Модуль призначено для реалізації пам'яті, що складається зі змінних.
+
+Змінні можуть мати числові значення цілого або дійсного типу
+
+"""
+
 _storage = {}       # пам'ять
 _last_error = 0     # код помилки останньої операції
 
@@ -133,9 +140,9 @@ if __name__ == "__main__":
     add("a")
     assert get_last_error() == 1
     c = get("a")
-    assert c is None and get_last_error() == 3
+    assert c == None and get_last_error() == 3
     c = get("b")
-    assert c is None and get_last_error() == 2
+    assert c == None and get_last_error() == 2
     set("a", 1)
     assert get_last_error() == 0
     c = get("a")
@@ -143,6 +150,7 @@ if __name__ == "__main__":
     set("b", 2)
     assert get_last_error() == 2
     add("x")
+    assert get_last_error() == 0
     input_var("x")      # ввести значення x = 2
     assert get_last_error() == 0
     f = get("x")
@@ -160,5 +168,8 @@ if __name__ == "__main__":
     f = get("d")
     assert f == 4 and get_last_error() == 0
     assert is_in("a")
+    assert get_last_error() == 0
+
+    assert not is_in("_asda") and get_last_error() == 0
 
     print("Success = True")
