@@ -78,7 +78,7 @@ def _get_next_token(string):
         return Token(token_type, string[0]), string[1:]
 
     # Перевіряємо, чи перший символ є літерою (змінна)
-    if string[0].isalpha():
+    if string[0].isidentifier():
         return _get_variable(string)
 
     # Перевіряємо, чи перший символ є цифрою (константа)
@@ -110,13 +110,21 @@ def _get_equal(string):
 
 
 def _get_constant(string):
+    dot_counter = 0
+
     constant = ''
     for char in string:
-        if char.isdigit() or char == '.':
+        if char.isdigit():
+            constant += char
+        elif char == '.':
+            dot_counter += 1
+            if dot_counter > 1:
+                return None, string
             constant += char
         else:
             break
-    if constant:
+
+    if constant and dot_counter <= 1:
         return Token('constant', constant), string[len(constant):]
     return None, string
 
@@ -183,6 +191,32 @@ if __name__ == "__main__":
     ]
 
     success = success and (x := get_tokens("x = (a + b)")) == needed
+    if not success: 
+        if len(x) != len(needed): 
+            print(f'wrong amount of tokens. Expected: {len(needed)}, got: {len(x)}')
+        for exp, real in zip(needed, x): 
+            if exp != real: 
+                print(f'Expected: {exp}, got {real}')        
+
+    needed = [
+        Token(type='variable', value='x'), 
+        Token(type='equal', value='='), 
+        Token(type='left_paren', value='('), 
+        Token(type='variable', value='_a_s12'), 
+        Token(type='operation', value='+'), 
+        Token(type='constant', value='12.12321'), 
+        Token(type='right_paren', value=')'), 
+        Token(type='operation', value='*'), 
+        Token(type='left_paren', value='('), 
+        Token(type='constant', value='123'), 
+        Token(type='variable', value='_asd'),
+        Token(type='other', value='.'), 
+        Token(type='operation', value='-'), 
+        Token(type='constant', value='3.'), 
+        Token(type='right_paren', value=')'),
+    ]
+
+    success = success and (x := get_tokens("x = (_a_s12 + 12.12321)*(123 _asd. - 3.)")) == needed
     if not success: 
         if len(x) != len(needed): 
             print(f'wrong amount of tokens. Expected: {len(needed)}, got: {len(x)}')
