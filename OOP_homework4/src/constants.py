@@ -1,0 +1,3 @@
+HORIZONT = 0
+
+VERTICAL = 1
